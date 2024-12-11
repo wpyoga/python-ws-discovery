@@ -142,6 +142,11 @@ class Discovery:
     def searchServices(self, types=None, scopes=None, address=None, port=None,
                        timeout=DEFAULT_DISCOVERY_TIMEOUT):
         'search for services given the TYPES and SCOPES within a given TIMEOUT'
+        #william
+        print("searchServices")
+        #types=[getQNameFromValue("dp0:NetworkVideoTransmitter")]
+        #types=[QName("http://www.onvif.org/ver10/network/wsdl","NetworkVideoTransmitter")]
+        pprint(types)
         try:
             self._sendProbe(types, scopes, address, port)
         except:
