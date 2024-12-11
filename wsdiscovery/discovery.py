@@ -1,3 +1,9 @@
+#william
+from pprint import pprint
+from .util import getQNameFromValue
+from .qname import QName
+import json
+import traceback
 """Discovery application."""
 
 import time
@@ -57,20 +63,31 @@ class Discovery:
     # discovery-related message handlers:
 
     def _handle_probematches(self, env, addr):
+        #william
+        print("_handle_probematches")
+        #traceback.print_stack()
         for match in env.getProbeResolveMatches():
+            #william
+            #pprint(vars(match))
             self._addRemoteService(Service(match.getTypes(), match.getScopes(), match.getXAddrs(), match.getEPR(), 0))
             if match.getXAddrs() is None or len(match.getXAddrs()) == 0:
                 self._sendResolve(match.getEPR())
 
     def _handle_resolvematches(self, env, addr):
+        #william
+        print("_handle_resolvematches")
         for match in env.getProbeResolveMatches():
             self._addRemoteService(Service(match.getTypes(), match.getScopes(), match.getXAddrs(), match.getEPR(), 0))
 
     def _handle_hello(self, env, addr):
+        #william
+        print("_handle_hello")
         #check if it is from a discovery proxy
         rt = env.getRelationshipType()
         if rt is not None and rt.getLocalname() == "Suppression" and rt.getNamespace() == NS_DISCOVERY:
             xAddr = env.getXAddrs()[0]
+            #william
+            print(xAddr)
             #only support 'soap.udp'
             if xAddr.startswith("soap.udp:"):
                 self._dpActive = True
@@ -108,6 +125,9 @@ class Discovery:
     # search for & keep track of discovered remote services:
 
     def _addRemoteService(self, service):
+        #william
+        print("_addRemoteService")
+        #pprint(vars(service))
         self._remoteServices[service.getEPR()] = service
 
     def _removeRemoteService(self, epr):
@@ -129,6 +149,10 @@ class Discovery:
 
         time.sleep(timeout)
 
+        #william
+        print("printing self._remoteServices")
+        pprint(self._remoteServices)
+        pprint(list(self._remoteServices.values()))
         return filterServices(list(self._remoteServices.values()), types, scopes)
 
     def stop(self):

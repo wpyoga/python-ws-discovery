@@ -1,3 +1,5 @@
+#william
+from pprint import pprint
 "Serialize & parse WS-Discovery Probe SOAP messages"
 
 import uuid
@@ -30,14 +32,34 @@ def createProbeMessage(env):
     headerEl = getHeaderEl(doc)
 
     addElementWithText(doc, headerEl, "a:MessageID", NS_ADDRESSING, env.getMessageId())
-    addElementWithText(doc, headerEl, "a:To", NS_ADDRESSING, env.getTo())
+    #william
+    #addElementWithText(doc, headerEl, "a:To", NS_ADDRESSING, env.getTo())
+
+    #william
+    #env.setReplyTo("http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous")
+    replyToEl = doc.createElementNS(NS_ADDRESSING, "a:ReplyTo")
+    addrEl = doc.createElementNS(NS_ADDRESSING, "a:Address")
+    addrTx = doc.createTextNode("http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous")
+    addrEl.appendChild(addrTx)
+    replyToEl.appendChild(addrEl)
+    #headerEl.appendChild(replyToEl)
 
     if len(env.getReplyTo()) > 0:
         addElementWithText(doc, headerEl, "a:ReplyTo", NS_ADDRESSING, env.getReplyTo())
 
+    #william
+    #addElementWithText(doc, headerEl, "a:To", NS_ADDRESSING, env.getTo())
+    toEl = doc.createElementNS(NS_ADDRESSING, "a:To")
+    toTx = doc.createTextNode(env.getTo())
+    #toEl.setAttribute("s:mustUnderstand", "1")
+    toEl.appendChild(toTx)
+    headerEl.appendChild(toEl)
+
     probeEl = doc.createElementNS(NS_DISCOVERY, "d:Probe")
     bodyEl.appendChild(probeEl)
 
+    #william
+    pprint(env.getTypes())
     addTypes(doc, probeEl, env.getTypes())
     addScopes(doc, probeEl, env.getScopes())
 

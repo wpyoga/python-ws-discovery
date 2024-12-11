@@ -1,3 +1,5 @@
+#william
+from pprint import pprint
 """Various utilities used by different parts of the package."""
 
 import io
@@ -31,10 +33,19 @@ def createSkelSoapMessage(soapAction):
     headerEl = doc.createElementNS(NS_SOAPENV, "s:Header")
     envEl.appendChild(headerEl)
 
-    addElementWithText(doc, headerEl, "a:Action", NS_ADDRESSING, soapAction)
+    #william
+    #addElementWithText(doc, headerEl, "a:Action", NS_ADDRESSING, soapAction)
+    actionEl = doc.createElementNS(NS_ADDRESSING, "a:Action")
+    actionTx = doc.createTextNode(soapAction)
+    #actionEl.setAttribute("s:mustUnderstand", "1")
+    actionEl.appendChild(actionTx)
+    headerEl.appendChild(actionEl)
 
     bodyEl = doc.createElementNS(NS_SOAPENV, "s:Body")
     envEl.appendChild(bodyEl)
+
+    #william
+    #doc.childNodes[0].toprettyxml()
 
     return doc
 
@@ -89,7 +100,11 @@ def getDocAsString(doc):
     outStr = None
     stream = io.StringIO(outStr)
     stream.write(doc.toprettyxml())
-    return stream.getvalue()
+    #william
+    #return stream.getvalue()
+    xmlText = stream.getvalue()
+    #xmlText = xmlText[(xmlText.index('?>')+2):]
+    return xmlText
 
 
 def getBodyEl(doc):
@@ -236,7 +251,14 @@ def getDefaultNamespace(node):
 
 
 def getQNameFromValue(value, node):
+    #william
+    print("getQNameFromValue")
+
     vals = value.split(":")
+
+    #william
+    pprint(vals)
+
     ns = ""
     prefix = None
     if len(vals) == 1:

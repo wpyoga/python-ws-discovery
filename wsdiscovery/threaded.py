@@ -1,3 +1,5 @@
+#william
+from pprint import pprint
 """Threaded networking facilities for implementing threaded WS-Discovery daemons."""
 import ipaddress
 import logging
@@ -239,11 +241,14 @@ class NetworkingThread(_StoppableDaemonThread):
                     self._iidMap[key] = iid
                 else:
                     tmnum = self._iidMap[key]
+                    print(f"mnum:{mnum} tmnum:{tmnum}")
                     if mnum > tmnum:
                         self._iidMap[key] = mnum
                     else:
                         continue
 
+            #william
+            print("envReceived " + addr[0])
             self._observer.envReceived(env, addr)
 
     def _sendMsg(self, msg):
