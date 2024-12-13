@@ -1,5 +1,3 @@
-#william
-from pprint import pprint
 """Various utilities used by different parts of the package."""
 
 import io
@@ -33,8 +31,8 @@ def createSkelSoapMessage(soapAction):
     headerEl = doc.createElementNS(NS_SOAPENV, "s:Header")
     envEl.appendChild(headerEl)
 
-    #william
     #addElementWithText(doc, headerEl, "a:Action", NS_ADDRESSING, soapAction)
+    #william
     actionEl = doc.createElementNS(NS_ADDRESSING, "a:Action")
     actionTx = doc.createTextNode(soapAction)
     #actionEl.setAttribute("s:mustUnderstand", "1")
@@ -43,9 +41,6 @@ def createSkelSoapMessage(soapAction):
 
     bodyEl = doc.createElementNS(NS_SOAPENV, "s:Body")
     envEl.appendChild(bodyEl)
-
-    #william
-    #doc.childNodes[0].toprettyxml()
 
     return doc
 
@@ -100,11 +95,7 @@ def getDocAsString(doc):
     outStr = None
     stream = io.StringIO(outStr)
     stream.write(doc.toprettyxml())
-    #william
-    #return stream.getvalue()
-    xmlText = stream.getvalue()
-    #xmlText = xmlText[(xmlText.index('?>')+2):]
-    return xmlText
+    return stream.getvalue()
 
 
 def getBodyEl(doc):
@@ -251,14 +242,7 @@ def getDefaultNamespace(node):
 
 
 def getQNameFromValue(value, node):
-    #william
-    print("getQNameFromValue")
-
     vals = value.split(":")
-
-    #william
-    pprint(vals)
-
     ns = ""
     prefix = None
     if len(vals) == 1:

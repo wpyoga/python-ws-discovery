@@ -32,9 +32,7 @@ def createProbeMessage(env):
     headerEl = getHeaderEl(doc)
 
     addElementWithText(doc, headerEl, "a:MessageID", NS_ADDRESSING, env.getMessageId())
-    #william
     #addElementWithText(doc, headerEl, "a:To", NS_ADDRESSING, env.getTo())
-
     #william
     #env.setReplyTo("http://schemas.xmlsoap.org/ws/2004/08/addressing/role/anonymous")
     replyToEl = doc.createElementNS(NS_ADDRESSING, "a:ReplyTo")
@@ -58,8 +56,6 @@ def createProbeMessage(env):
     probeEl = doc.createElementNS(NS_DISCOVERY, "d:Probe")
     bodyEl.appendChild(probeEl)
 
-    #william
-    pprint(env.getTypes())
     addTypes(doc, probeEl, env.getTypes())
     addScopes(doc, probeEl, env.getScopes())
 
